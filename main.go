@@ -13,7 +13,8 @@ import (
 )
 
 func main() {
-	dg, err := discordgo.New("Bot DISCORD_BOT_TOKEN")
+	token := os.Getenv("DISCORD_BOT_TOKEN")
+	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
 		log.Fatal(err)
 	}
