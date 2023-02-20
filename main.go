@@ -44,8 +44,28 @@ func simpleHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if m.Content == "!yeah" {
-		if _, err := s.ChannelMessageSend(m.ChannelID, "BAD TO THE BONE 💀🔥"); err != nil {
+	fmt.Println("CMD: ", m.Content)
+
+	action := struct {
+		file    string
+		comment string
+	}{}
+	switch m.Content {
+	case "!yeah":
+		action.file = "badtothebone.mp3"
+		action.comment = "BAD TO THE BONE 💀🔥"
+	case "!letsgo":
+		action.file = "letsgo.mp3"
+		action.comment = "OK LET'S GO 🎡💪"
+	case "!redneck":
+		action.file = "betty.mp3"
+		action.comment = "I LOVE MY COUSIN 👩‍🌾"
+	default:
+		fmt.Println("Unknown command")
+	}
+
+	if action.file != "" {
+		if _, err := s.ChannelMessageSend(m.ChannelID, action.comment); err != nil {
 			fmt.Println("ERROR: ", err)
 		}
 
@@ -61,9 +81,10 @@ func simpleHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		voiceConnection.Speaking(true)
 
-		dgvoice.PlayAudioFile(voiceConnection, "badtothebone.mp3", make(chan bool))
+		dgvoice.PlayAudioFile(voiceConnection, action.file, make(chan bool))
 		voiceConnection.Disconnect()
 	}
+
 }
 
 func findUserVoiceChannel(session *discordgo.Session, userID string) (*discordgo.Channel, error) {
