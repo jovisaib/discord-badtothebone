@@ -57,9 +57,6 @@ func simpleHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	case "!letsgo":
 		action.file = "letsgo.mp3"
 		action.comment = "OK LET'S GO 🎡💪"
-	case "!redneck":
-		action.file = "betty.mp3"
-		action.comment = "I LOVE MY COUSIN 👩‍🌾"
 	default:
 		fmt.Println("Unknown command")
 	}
